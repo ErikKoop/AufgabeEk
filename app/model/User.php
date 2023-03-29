@@ -52,6 +52,7 @@ public function logout(): void
 public function getUsers(): array
 {
     $arrayUsers = [];
+    
     //code to get all users from database
     return $arrayUsers;
 }
