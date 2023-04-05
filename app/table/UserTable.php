@@ -1,7 +1,5 @@
 <?php
-/*
-* By Stefan Schumacher
-*/
+
 namespace App\Table;
 use Table\Database\QueryProvider;
 require_once('./app/table/QueryProvider.php');
@@ -19,6 +17,7 @@ class UserTable extends QueryProvider
 
    public function __construct()
    {
+      $this->id =0;
       parent::__construct();
    }
 
@@ -38,12 +37,29 @@ class UserTable extends QueryProvider
       }
       return null;
    }
+   public function getUserByEmail(string $email):void
+   {
+      $sqlQuery = 'SELECT * FROM users WHERE email = :email';
+      $arrayBind = [':email'=>$email];
+      $result = $this->selectQuery($sqlQuery,$arrayBind);
+      if(isset($result[0]))
+      {
+         $this->convertSelectResultToObject($result[0]);
+        
+      }
+    
+   }
    
    protected function insert(string $email, string $password , bool $isAdmin = false):int|null
    {
       $sqlQuery = 'INSERT INTO users (email ,password, isAdmin) VALUES (:email,:password,:isAdmin)';
       $arrayBind = [':email'=> $email,':password'=>$password,':isAdmin'=>$isAdmin];
-      return $this->insertQuery($sqlQuery,$arrayBind);
+      $result = $this->insertQuery($sqlQuery,$arrayBind);
+      $error = $this->getError();
+      if($error) {
+         var_dump($this->getError());
+      }
+      return $result;
    }
 
    public function deleteById(int $id): int|null
@@ -51,6 +67,14 @@ class UserTable extends QueryProvider
       $deleteQuery = 'DELETE FROM users WHERE id = :id';
       $arrayBindDelete = [':id'=>$id];
       return $this->deleteQuery($deleteQuery,$arrayBindDelete);
+   }
+
+   public function deleteByEmail(string $email): int|null
+   {
+      $deleteQuery = 'DELETE FROM users WHERE email = :email';
+      $arrayBindDelete = [':email'=>$email];
+      return $this->deleteQuery($deleteQuery,$arrayBindDelete);
+    
    }
 
    public function updatePasswordByEmail(string $email,string $password):int|null
