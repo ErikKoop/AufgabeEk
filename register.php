@@ -33,7 +33,6 @@ require_once('./app/view/RegisterView.php');
 </div>
 </form>
 <form method="post" target="_self">
-
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
     <input  name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">

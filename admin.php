@@ -1,8 +1,8 @@
 <?php include('./template/navbar.php'); ?>
 
 <div class="container pt-3">
-    <h1>Willkommen Admin</h1>
-
+    <h3>Welcome Admin</h3>
+    <img src="http://localhost/ek/bilder/datenbank.jpg"
 </div>
 
 
